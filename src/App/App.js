@@ -26,6 +26,7 @@ const Plugin = lazy(() => import('../Plugin'));
 const Invite = lazy(() => import('../Invite'));
 // todo move it to .env
 const allowedDomains = [
+    "ud.getlogin.org",
     "getlogin.org",
     "getlogin.swarm-gateways.net",
     "getlogin.localhost:3000"

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './Signin.css';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import {getTrezorAddresses, initPage, signIn} from "../reducers/actions";
+import {getTrezorAddresses, initPage, signIn, udLogin} from "../reducers/actions";
 import {LOGIN_USERNAME_PASSWORD} from "../Lib/get-login/signin";
 import {useStateValue} from "../reducers/state";
 import {Link} from "react-router-dom";
@@ -12,6 +12,7 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import WaitButton from "../Elements/WaitButton";
 import Dropdown from "react-bootstrap/Dropdown";
 import TrezorSelectWallet from "../Elements/TrezorSelectWallet";
+import UAuth from '@uauth/js'
 
 function Signin() {
     const {state: {signin}} = useStateValue();
@@ -20,6 +21,8 @@ function Signin() {
     const [method, setMethod] = useState(LOGIN_USERNAME_PASSWORD);
     const [showModal, setShowModal] = useState(false);
     const {state: {config}} = useStateValue();
+    const [ud, setUd] = useState(null);
+
 
     const dropDown = [
         {key: LOGIN_USERNAME_PASSWORD, title: 'Password'},
@@ -31,6 +34,27 @@ function Signin() {
 
     useEffect(() => {
         initPage(ACTION_SIGNIN);
+        // const uauth = new UAuth({
+        //     clientID: 'tU+I8kRUQX5GYvng30Fexz129sUBKqZUzlBqKLTDFSA=',
+        //     clientSecret: 'bM8nRoApVF0RfJRMSfvjtCYHNmEOQssGxCwUC/pLyAU=',
+        //     redirectUri: 'https://ud.getlogin.org/callback',
+        // })
+        const uauth = new UAuth({
+            clientID: 'CfwKNQRCaKauzBWRBsT2XNwePBGBIpRFcAT/lbMtHPo=',
+            clientSecret: '5gu0VqT82IkYZQAYyFIn9GJuUSfK1/qb91XZlb/om/0=',
+            redirectUri: 'https://getlogin.localhost:3000/callback',
+        })
+        setUd(uauth);
+
+        window.login = async () => {
+            try {
+                const data = await uauth.loginWithPopup()
+                udLogin(data.idToken.sub, data.idToken.wallet_address).then();
+                console.log(data)
+            } catch (error) {
+                console.error(error)
+            }
+        }
     }, []);
 
     const isDisabled = () => {
@@ -99,9 +123,9 @@ function Signin() {
                                                     {/*<h1>Sign in / <Link to="./xsignup">Sign up</Link></h1>*/}
 
                                                     {signin.errorMessage &&
-                                                    <div className="alert alert-danger" role="alert">
-                                                        {signin.errorMessage}
-                                                    </div>}
+                                                        <div className="alert alert-danger" role="alert">
+                                                            {signin.errorMessage}
+                                                        </div>}
 
                                                     <Form.Group controlId="formBasicEmail">
                                                         <Form.Control type="text" placeholder="Username"
@@ -126,8 +150,8 @@ function Signin() {
                                                         </WaitButton>
 
                                                         {dropDown.length > 1 &&
-                                                        <Dropdown.Toggle className="" split variant="primary"
-                                                                         id="dropdown-split-basic"/>}
+                                                            <Dropdown.Toggle className="" split variant="primary"
+                                                                             id="dropdown-split-basic"/>}
 
                                                         {dropDown.length > 1 && <Dropdown.Menu>
                                                             {dropDown.map(item => <Dropdown.Item
@@ -135,6 +159,14 @@ function Signin() {
                                                                 onClick={e => onDropDownChange(item)}>{item.title}</Dropdown.Item>)}
                                                         </Dropdown.Menu>}
                                                     </Dropdown>
+
+                                                    <WaitButton>
+                                                        <Button variant="primary"
+                                                                onClick={window.login}
+                                                                className="col-md-12 mt-2"
+                                                                disabled={false}
+                                                        >Sign in with Unstoppable Domains</Button>
+                                                    </WaitButton>
 
                                                     {signin.log.length > 0 && <details className="mt-2">
                                                         <summary>{signin.status}</summary>

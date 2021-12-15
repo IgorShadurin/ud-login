@@ -141,6 +141,25 @@ export const init = (dispatch) => {
     });
 };
 
+export const udLogin = async (domain, address) => {
+    await callMethod(ACTION_SIGNIN, async () => {
+        const usernameHash = getUsernameHash(cryptoInstance.web3, domain);
+
+        setUserData(domain, null, LOGIN_TREZOR, address);
+
+        return {username: domain, usernameHash};
+    })
+
+    getWalletBalance(address).then();
+    setInterval(_ => {
+        try {
+            getWalletBalance(getLocalAddress()).then();
+        } catch (e) {
+
+        }
+    }, 10000);
+}
+
 export const checkLocalCredentials = async () => {
     return callMethod(ACTION_LOCAL_AUTH, async () => {
         const data = getUserData();
@@ -197,6 +216,7 @@ export const checkLocalCredentials = async () => {
         return data;
     });
 };
+
 
 export const getWalletBalance = async (wallet) => {
     return callMethod(ACTION_GET_BALANCE, async () => {

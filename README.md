@@ -1,5 +1,17 @@
 ## GetLogin
 
+### Gitcoin Info
+
+Project name: GetLogin
+
+Recorded video demo: https://www.youtube.com/watch?v=b-KDgXikfgc
+
+Discord ID: IgorShadurin#8012
+
+UnstoppableDomain account: igor.shadurin@gmail.com
+
+
+
 ### Description
 
 GetLogin is a Đapp for providing a decentralized single sign-on solution for Ethereum-base social applications with a familiar (Web2.0-style) onboarding experience that does not require Ether or even any experience with Ethereum.
@@ -155,3 +167,4 @@ In the project directory, you can run:
 ### App examples
 
 Reward system created with React - https://github.com/GetLoginEth/reward-system
+

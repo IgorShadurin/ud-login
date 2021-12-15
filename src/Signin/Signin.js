@@ -34,16 +34,16 @@ function Signin() {
 
     useEffect(() => {
         initPage(ACTION_SIGNIN);
-        // const uauth = new UAuth({
-        //     clientID: 'tU+I8kRUQX5GYvng30Fexz129sUBKqZUzlBqKLTDFSA=',
-        //     clientSecret: 'bM8nRoApVF0RfJRMSfvjtCYHNmEOQssGxCwUC/pLyAU=',
-        //     redirectUri: 'https://ud.getlogin.org/callback',
-        // })
         const uauth = new UAuth({
-            clientID: 'CfwKNQRCaKauzBWRBsT2XNwePBGBIpRFcAT/lbMtHPo=',
-            clientSecret: '5gu0VqT82IkYZQAYyFIn9GJuUSfK1/qb91XZlb/om/0=',
-            redirectUri: 'https://getlogin.localhost:3000/callback',
+            clientID: 'tU+I8kRUQX5GYvng30Fexz129sUBKqZUzlBqKLTDFSA=',
+            clientSecret: 'bM8nRoApVF0RfJRMSfvjtCYHNmEOQssGxCwUC/pLyAU=',
+            redirectUri: 'https://ud.getlogin.org/callback',
         })
+        // const uauth = new UAuth({
+        //     clientID: 'CfwKNQRCaKauzBWRBsT2XNwePBGBIpRFcAT/lbMtHPo=',
+        //     clientSecret: '5gu0VqT82IkYZQAYyFIn9GJuUSfK1/qb91XZlb/om/0=',
+        //     redirectUri: 'https://getlogin.localhost:3000/callback',
+        // })
         setUd(uauth);
 
         window.login = async () => {
